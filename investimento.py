@@ -26,7 +26,6 @@ def investimento_retroativo(M, C, t, interest, A=None):
     """
     ta = 0
     interest = interest / 100
-    M = 0
     mensal = []
     for i in range(t):
         M += C + (M * (interest / 12))
