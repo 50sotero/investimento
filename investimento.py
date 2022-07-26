@@ -9,11 +9,10 @@ def convert_df(df):
     return df.to_csv().encode("utf-8")
 
 
-def investimento_retroativo(M, C, t, interest, A=None):
+def investimento_retroativo(M, C, t, interest):
     """
 
     Input:
-     A = target value, if any
      M = initial amount
      C = monthly contribution
      t = time in months
@@ -24,18 +23,15 @@ def investimento_retroativo(M, C, t, interest, A=None):
      month-to-month table with accrued value, accrued interest and nominal interest
 
     """
-    ta = 0
     interest = interest / 100
     mensal = []
     for i in range(t):
-        M += C + (M * (interest / 12))
-        mensal.append(M)
-
-    if A is not None:
-        M = 0
-        while M < A:
+        if i == 0:
+            mensal.append(M)
+        else:
             M += C + (M * (interest / 12))
-            ta += 1
+            mensal.append(M)
+
 
     juros = [j - (C * (i + 1)) for i, j in enumerate(mensal)]
 
