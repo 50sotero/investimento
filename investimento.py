@@ -96,7 +96,7 @@ if st.button("Calculate"):
 with st.sidebar:
     st.write("This app was made by Victor Sotero.")
     st.write(
-        "Check out the source code on my GitHub! [link](https://github.com/50sotero/)."
+        "Check out the source code on my GitHub! [link](https://github.com/50sotero/investimento)."
     )
     st.write(
         "Check out my LinkedIn profile! [link](https://www.linkedin.com/in/victor-sotero/)."
