@@ -68,7 +68,7 @@ interest = st.number_input(
 if st.button("Calculate"):
 
     df = investimento_retroativo(int(M), int(C), int(t), int(interest))
-    df.drop(df.head(1).index,inplace=True)
+    df.drop(df.tail(1).index,inplace=True)
     st.write(df)
     csv = convert_df(df)
     st.download_button(
