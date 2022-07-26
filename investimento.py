@@ -3,9 +3,11 @@ import streamlit as st
 import time
 import plotly.express as px
 
+
 @st.cache
 def convert_df(df):
-   return df.to_csv().encode('utf-8')
+    return df.to_csv().encode("utf-8")
+
 
 def investimento_retroativo(M, C, t, interest, A=None):
     """
@@ -57,11 +59,15 @@ def investimento_retroativo(M, C, t, interest, A=None):
     ).transpose()
 
 
-M = st.number_input("Initial amount", 0)
-C = st.number_input("Monthly investment (interest yield will be reinvested)", 5000)
-t = st.number_input("Total time of application (in months)", 60)
+M = st.number_input("Initial amount", 0, min_value=0)
+C = st.number_input(
+    "Monthly investment (interest yield will be reinvested)", 5000, min_value=0
+)
+t = st.number_input("Total time of application (in months)", 60, min_value=0)
 interest = st.number_input(
-    "Annual interest rate, in % (Ex: If the annual interest rate is 13%, then, interest = 13)", 13
+    "Annual interest rate, in % (Ex: If the annual interest rate is 13%, then, interest = 13)",
+    13,
+    min_value=0,
 )
 
 if st.button("Calculate"):
@@ -70,34 +76,31 @@ if st.button("Calculate"):
     st.write(df)
     csv = convert_df(df)
     st.download_button(
-        "Download csv",
-        csv,
-        "interest_table.csv",
-        "text/csv",
-        key='download-csv'
-        )
+        "Download csv", csv, "interest_table.csv", "text/csv", key="download-csv"
+    )
 
     valor_total = df.cumulative_value.max()
 
-    st.write(
-        "In the end, you will have: "
-        + str(f"{round(valor_total,2):,.2f}")
-    )
-    
+    st.write("In the end, you will have: " + str(f"{round(valor_total,2):,.2f}"))
 
     with st.expander("See chart"):
-        fig = px.bar(df, x = df.index, y = df.columns,labels={
-                     "index": "months",
-                     "value": "amounts",
-                     "variable": "amounts"
-                 },
-                title="Amount X Months investment")
+        fig = px.bar(
+            df,
+            x=df.index,
+            y=df.columns,
+            labels={"index": "months", "value": "amounts", "variable": "amounts"},
+            title="Amount X Months investment",
+        )
         st.plotly_chart(fig, use_container_width=True)
 
 with st.sidebar:
     st.write("This app was made by Victor Sotero.")
-    st.write("Check out the source code on my GitHub! [link](https://github.com/50sotero/).")
-    st.write("Check out my LinkedIn profile! [link](https://www.linkedin.com/in/victor-sotero/).")
+    st.write(
+        "Check out the source code on my GitHub! [link](https://github.com/50sotero/)."
+    )
+    st.write(
+        "Check out my LinkedIn profile! [link](https://www.linkedin.com/in/victor-sotero/)."
+    )
     with st.spinner(""):
         time.sleep(2)
     st.success("Thanks for coming!")
