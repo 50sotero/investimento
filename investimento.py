@@ -24,21 +24,20 @@ def investimento_retroativo(M, C, t, interest):
 
     """
     interest = interest / 100
-    mensal = []
+    mensal = [M]
+    juros = [0]
+    inte = 0
     for i in range(t):
-        if i == 0:
-            mensal.append(M)
-        else:
-            M += C + (M * (interest / 12))
-            mensal.append(M)
+        M += C + (M * (interest / 12))
+        mensal.append(M)
 
-
-    juros = [j - (C * (i + 1)) for i, j in enumerate(mensal)]
+    for i, j in enumerate(mensal):
+        inte += (j * interest/12)
+        juros.append(inte)
 
     try:
         real_interest = [0]
         for i in range(len(juros)):
-
             real_interest.append(juros[i + 1] - juros[i])
     except:
         real_interest.append(juros[-1])
@@ -52,6 +51,7 @@ def investimento_retroativo(M, C, t, interest):
         },
         orient="index",
     ).transpose()
+
 
 
 M = st.number_input("Initial amount", value = 0, min_value=0)
