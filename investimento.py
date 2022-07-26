@@ -58,7 +58,7 @@ def investimento_retroativo(M, C, t, interest, A=None):
 
 
 M = st.number_input("Initial amount", 0)
-C = st.number_input("Monthly investment", 5000)
+C = st.number_input("Monthly investment (interest yield will be reinvested)", 5000)
 t = st.number_input("Total time of application (in months)", 60)
 interest = st.number_input(
     "Annual interest rate, in % (Ex: If the annual interest rate is 13%, then, interest = 13)", 13
