@@ -3,6 +3,8 @@ import streamlit as st
 import time
 import plotly.express as px
 
+pd.set_option('display.precision', 2)
+pd.option_context('display.float_format', '{:0.2f}'.format)
 
 @st.cache
 def convert_df(df):
@@ -32,7 +34,7 @@ def investimento_retroativo(M, C, t, interest):
         mensal.append(M)
 
     for i, j in enumerate(mensal):
-        inte += (j * interest/12)
+        inte += j * interest / 12
         juros.append(inte)
 
     try:
@@ -54,22 +56,22 @@ def investimento_retroativo(M, C, t, interest):
 
 
 
-M = st.number_input("Initial amount", value = 0, min_value=0)
+M = st.number_input("Initial amount", value=0, min_value=0)
 C = st.number_input(
-    "Monthly investment (interest yield will be reinvested)", value = 5000, min_value=0
+    "Monthly investment (interest yield will be reinvested)", value=5000, min_value=0
 )
-t = st.number_input("Total time of application (in months)", value = 60, min_value=0)
+t = st.number_input("Total time of application (in months)", value=60, min_value=0)
 interest = st.number_input(
     "Annual interest rate, in % (Ex: If the annual interest rate is 13%, then, interest = 13)",
-    value = 13,
+    value=13,
     min_value=0,
 )
 
 if st.button("Calculate"):
 
     df = investimento_retroativo(int(M), int(C), int(t), int(interest))
-    df.drop(df.tail(1).index,inplace=True)
-    st.write(df)
+    df.drop(df.tail(1).index, inplace=True)
+    st.dataframe(df)
     csv = convert_df(df)
     st.download_button(
         "Download csv", csv, "interest_table.csv", "text/csv", key="download-csv"
