@@ -3,27 +3,20 @@ import streamlit as st
 import time
 import plotly.express as px
 
-pd.set_option('display.precision', 2)
-pd.option_context('display.float_format', '{:0.2f}'.format)
-
 @st.cache
 def convert_df(df):
     return df.to_csv().encode("utf-8")
 
-
 def investimento_retroativo(M, C, t, interest):
     """
-
     Input:
      M = initial amount
      C = monthly contribution
      t = time in months
      interest = annual interest in % (Ex: If interest is 13%, then interest = 13)
-
     Output:
 
      month-to-month table with accrued value, accrued interest and nominal interest
-
     """
     interest = interest / 100
     mensal = [M]
@@ -54,8 +47,6 @@ def investimento_retroativo(M, C, t, interest):
         orient="index",
     ).transpose()
 
-
-
 M = st.number_input("Initial amount", value=0, min_value=0, format="%.2d")
 C = st.number_input(
     "Monthly investment (interest yield will be reinvested)", value=5000, min_value=0
@@ -79,17 +70,16 @@ if st.button("Calculate"):
 
     valor_total = df.cumulative_value.max()
 
-    st.write("In the end, you will have: " + str(f"{round(valor_total,2):,.2f}"))
+    st.write("In the end, you will have: ", str(f"{round(valor_total,2):,.2f}"))
 
-    with st.expander("See chart"):
-        fig = px.bar(
-            df,
-            x=df.index,
-            y=df.columns,
-            labels={"index": "months", "value": "amounts", "variable": "amounts"},
-            title="Amount X Months investment",
-        )
-        st.plotly_chart(fig, use_container_width=True)
+    fig = px.bar(
+        df,
+        x=df.index,
+        y=df.columns,
+        labels={"index": "months", "value": "amounts", "variable": "amounts"},
+        title="Amount X Months investment",
+    )
+    st.plotly_chart(fig)
 
 with st.sidebar:
     st.write("This app was made by Victor Sotero.")
