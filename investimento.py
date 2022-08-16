@@ -3,9 +3,11 @@ import streamlit as st
 import time
 import plotly.express as px
 
+
 @st.cache
 def convert_df(df):
     return df.to_csv().encode("utf-8")
+
 
 def investimento_retroativo(M, C, t, interest):
     """
@@ -47,6 +49,7 @@ def investimento_retroativo(M, C, t, interest):
         orient="index",
     ).transpose()
 
+
 M = st.number_input("Initial amount", value=0, min_value=0, format="%.2d")
 C = st.number_input(
     "Monthly investment (interest yield will be reinvested)", value=5000, min_value=0
@@ -54,8 +57,10 @@ C = st.number_input(
 t = st.number_input("Total time of application (in months)", value=60, min_value=0)
 interest = st.number_input(
     "Annual interest rate, in % (Ex: If the annual interest rate is 13%, then, interest = 13)",
-    value=13,
-    min_value=0,
+    value=float(13),
+    min_value=float(0),
+    step=0.5,
+    format="%.2f",
 )
 
 if st.button("Calculate"):
